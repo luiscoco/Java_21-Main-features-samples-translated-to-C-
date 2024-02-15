@@ -927,7 +927,7 @@ async void HandleClientRequest(TcpClient clientSocket)
 }
 ```
 
-## 6. 
+## 6. Similar capabilities as SequencedCollection in C#
 
 While we don't have the identical **SequencedCollection** interface in C# 12,  let's explore how you can achieve similar functionality and design patterns with C#'s **built-in collections** and **LINQ**
 
