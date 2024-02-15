@@ -645,3 +645,40 @@ public class DatabaseConnection : IDisposable
 **Real Implementation**: In a real-world scenario, you would use an actual database library (like System.Data.SqlClient for SQL Server) and provide implementations that open, query, and close database connections according to that library's conventions.
 
 **Error Handling**: It's essential to handle potential exceptions (SQLException in the Java version, likely specific database exceptions in the C# version) for robust database interaction.
+
+**Scenario 2: Hierarchical Request Data**
+
+We can use Scoped Values to model **nested request** information or hierarchical contexts
+
+C# doesn't have a direct counterpart to Java's hypothetical ScopedData pattern, let's break down how you can achieve similar functionality using standard C# constructs:
+
+Simulating Scoped Data with **Closures/Lambdas**
+
+```csharp
+User user = new User("Alice");
+HttpRequest request = new HttpRequest("10.0.0.1");
+
+// Using a lambda to capture 'user' in the current scope
+Action action = () => HandleNestedRequest(user, request); 
+action(); 
+
+static void HandleNestedRequest(User user, HttpRequest request)
+{
+    Console.WriteLine("User: " + user.name);
+    Console.WriteLine("Request IP: " + request.ipAddress);
+    // ... other nested processing
+}
+```
+
+**Explanation**:
+
+**Lambda/Closure**: The lambda expression **() => HandleNestedRequest(user, request)** captures the user and request variables from the outer scope
+
+When action() is executed, it accesses these captured values within HandleNestedRequest
+
+**Trade-offs**: Unlike Java's ScopedValue, this doesn't provide the same explicit lifespan management or chained execution with .thenCombine
+
+You need to call the action (**action()**) to simulate the **scoped execution**
+
+
+
