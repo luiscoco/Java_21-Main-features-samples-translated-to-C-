@@ -365,3 +365,52 @@ class Program
 }
 ```
 
+## 3. String Templates
+
+String templates enhance Java's string **formatting** capabilities, enabling you to embed expressions directly within strings:
+
+```csharp
+int width = 5;
+int height = 8;
+string message = $"""
+    Shape dimensions:
+    Width:  {width}
+    Height: {height}
+""";
+Console.WriteLine(message);
+```
+
+**Explanation of Changes**:
+
+**String Interpolation**: C# uses $ for interpolated strings. Everything enclosed in curly braces ({}) will have its value inserted directly into the string. This is cleaner than Java's .formatted method.
+
+**Triple-Quotes for Multiline Strings**:  Using triple double-quotes (**"""**) in C# allows you to create multiline strings directly within the code, removing the need for  string concatenation in multiline formatting.
+
+**Console.WriteLine**:  This replaces **System.out.println** for outputting the message to the console.
+
+String templates can handle **rich formatting**, including number formatting and alignment:
+
+```csharp
+double price = 129.95;
+string formatted = $"""
+        Invoice
+        Item: Widget XYZ
+        Price: ${price:C2} 
+        """;
+Console.WriteLine(formatted);
+```
+
+**Explanation of Changes**:
+
+**String Interpolation**: Like before, we use C#'s $ for string interpolation, which eliminates the need for the separate .formatted call.
+
+**Currency Formatting (C2)**: The :C2 format specifier is added to directly format the price variable as currency with two decimal places.
+
+This C# code will produce an output similar to this:
+
+```
+Invoice
+Item: Widget XYZ
+Price: $129.95 
+```
+
