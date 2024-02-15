@@ -734,9 +734,67 @@ Result of Task 1
 42
 ```
 
-Structured concurrency offers elegant error handling for concurrent tasks
+**Structured concurrency offers elegant error handling for concurrent tasks**
 
 ```csharp
+using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
+try 
+{
+    List<Task<string>> tasks = new List<Task<string>>
+    {
+        Task.Run(() => PossiblyFailingTask1()),
+        Task.Run(() => PossiblyFailingTask2())
+    };
+
+    // Wait for all tasks to complete
+    Task.WaitAll(tasks.ToArray());
+
+    // Process results, potentially handle exceptions
+    foreach (var task in tasks)
+    {
+        try
+        {
+            Console.WriteLine(task.Result);
+        }
+        catch (AggregateException ex)  // Handles exceptions from tasks
+        {
+            foreach (var innerEx in ex.InnerExceptions)
+            {
+                Console.WriteLine("Task failed: " + innerEx.Message);
+            }
+        }
+    }
+}
+catch (AggregateException ex)
+{
+    // Handle potential exceptions with any of the tasks themselves
+    foreach (var innerEx in ex.InnerExceptions)
+    {
+        Console.WriteLine(innerEx.Message);
+    }
+}
+
+// ... Your hypothetical 'PossiblyFailingTask1' and 'PossiblyFailingTask2' methods
+string PossiblyFailingTask1() { /* ... */ throw new Exception("Task 1 error"); } 
+string PossiblyFailingTask2() { /* ... */ return "Task 2 Success"; } 
 ```
+
+**Explanation of Changes**:
+
+**Task Creation**: Tasks are created using Task.Run to encapsulate PossiblyFailingTask1 and PossiblyFailingTask2
+
+**invokeAll Simulation**: While there's no invokeAll equivalent, storing tasks in a list and using Task.WaitAll achieves the same effect of waiting for all tasks to complete
+
+**Exception Handling**: C#'s AggregateException is used to catch potential exceptions from tasks. Inner exceptions provide individual failure reasons
+
+**Hypothetical Tasks**: You'll need to implement your PossiblyFailingTask1 and PossiblyFailingTask2 methods and replace the placeholders in this example
+
+**Key Points**:
+
+**Virtual Threads**: Similar to the previous example, C#'s .NET thread pool manages task execution efficiently
+
+**Synchronization**: Task.WaitAll blocks the thread until all tasks in the array have completed
 
