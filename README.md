@@ -512,7 +512,68 @@ Console.WriteLine(report);
 
 The code will produce an output similar to this:
 
+```
 --- Order Summary ---
 Laptop               $ 999.99 x2
 Keyboard             $  45.50 x1
+```
+
+## 4. Scoped Values
+
+Scoped values introduce a safer way to use resources that need to be automatically closed
+
+Scoped values ensure correct closure, similar to try-with-resources but more versatile
+
+While we don't have an exact equivalent of Java's scoped values in C#, we can replicate the core functionality using the **using** statement and the **IDisposable** interface. Let's break down how:
+
+```csharp
+// Our C# equivalent of your Java 'AutoCloseableFile'
+class AutoCloseableFile : IDisposable
+{
+    private string _filename;
+
+    public AutoCloseableFile(string filename)
+    {
+        _filename = filename;
+        // Simulated file opening logic in the real implementation
+        Console.WriteLine("File opened: " + filename);
+    }
+
+    public string ReadContent()
+    {
+        // Simulated file reading in the real implementation
+        return "Sample content from " + _filename; 
+    }
+
+    public void Dispose()
+    {
+        // Simulated file closing logic in the real implementation
+        Console.WriteLine("File closed: " + _filename);
+    }
+}
+```
+
+C# Translation using **using**:
+
+```csharp
+using (var file = new AutoCloseableFile("data.txt"))
+{
+    string content = file.ReadContent();
+    // ... do something with content
+} // 'file' is automatically closed (and Dispose() is called) here
+```
+
+**Explanation**:
+
+**IDisposable**: The AutoCloseableFile class implements the IDisposable interface. This interface ensures that the Dispose method is available to handle resource cleanup (such as closing files)
+
+**using** Statement:  C#'s using statement guarantees that the Dispose method will be called on the file object, even if exceptions occur, providing the same resource safety as Java's try-with-resources
+
+**Important Notes**:
+
+In a real-world implementation, the AutoCloseableFile class would handle actual file opening, reading, and closing operations
+
+C#'s using statement provides a concise and reliable way to manage resources that need cleanup
+
+Scoped values go beyond standard try-with-resources to enable more flexible resource handling
 
