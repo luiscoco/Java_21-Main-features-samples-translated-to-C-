@@ -442,3 +442,34 @@ Verbatim strings treat most special characters (like newline characters) literal
 
 **String Interpolation**: Similar to previous examples, we use $ within the verbatim string to embed the values of name, age, and temperature
 
+**Sequenced Collections**
+
+Sequenced Collections provide greater control over the processing of collections in a sequential manner. Let's combine this with string formatting:
+
+```csharp
+using System.Linq;
+using System.Collections.Generic;
+
+List<string> fruits = new List<string> { "Apple", "Banana", "Mango", "Orange" };
+
+string formattedList = string.Join(", ", fruits.Select(fruit => fruit.ToUpper()));
+formattedList = $"[{formattedList}]";
+
+Console.WriteLine(formattedList);
+```
+
+**Explanation of Changes**:
+
+**LINQ**: C# uses LINQ (Language-Integrated Query) for operations similar to Java Streams. It provides methods like Select (equivalent to Java's map) for transformations.
+
+**string.Join**: This method is used to join the transformed elements of the list into a comma-separated string.
+
+**String Interpolation**:  C#'s string interpolation ($) makes it easy to directly embed the formatted list within the square brackets.
+
+**Outpu**
+
+The code will produce the following output:
+
+```
+[APPLE, BANANA, MANGO, ORANGE]
+```
