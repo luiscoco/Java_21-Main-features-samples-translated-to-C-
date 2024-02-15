@@ -223,4 +223,37 @@ if (obj is Point { } point)  // Note the additional '{' and '}'
 }
 ```
 
-This modified if handles null cases and adds an extra layer of deconstruction into named variables (x and y).
+This modified if handles null cases and adds an extra layer of deconstruction into named variables (x and y)
+
+**Record patterns can be nested** to extract data from more complex record hierarchies:
+
+```csharp
+record Customer(string Name, Address Address);
+record Address(string Street, string City, string ZipCode);
+
+void ProcessCustomer(Customer customer)
+{
+    if (customer is Customer(string name, Address(_, string city, _)) && city == "New York") 
+    {
+        Console.WriteLine($"Customer {name} is from New York.");
+    }
+}
+```
+
+**Explanations**:
+
+**Records**: C# records continue to mirror Java's record structure
+
+**Nested Pattern Matching**: The if condition demonstrates nested pattern matching. We are interested in the Customer record's properties (name and Address) as well as specifically in the city property within the Address
+
+**Underscore (_) for Ignored Values**: The underscores (_) act as placeholders for properties within the Address that we don't need to use
+
+**Combined Condition**: C#'s pattern matching allows us to merge nested pattern checks with additional conditions into a single if statement. We check for the pattern and the city being "New York" simultaneously
+
+The statement customer is Customer(string name, Address(_, string city, _)) && city == "New York" does the following:
+
+**Pattern Matching**: Checks if customer matches the structure of a Customer with nested Address. Deconstructs it if a match is found
+
+**City Extraction**: Only checks those matching customers having 'city' within their address data
+
+**City Comparison**: Additionally requires that city is equal to "New York"
