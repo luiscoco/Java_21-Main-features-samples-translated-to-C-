@@ -414,3 +414,31 @@ Item: Widget XYZ
 Price: $129.95 
 ```
 
+**String Templates**
+
+```csharp
+int age = 35;
+string name = "Alice";
+double temperature = 23.6;
+
+string formattedMessage = $@"Hello, my name is {name} and I am {age} years old. 
+                             The current temperature is {temperature} degrees Celsius.";
+
+Console.WriteLine(formattedMessage);
+```
+
+This is the output for the above code
+
+```
+Hello, my name is Alice and I am 35 years old. 
+The current temperature is 23.6 degrees Celsius.
+```
+
+**Key Changes**:
+
+**Verbatim String with @**: C# uses the @ symbol before the opening quote to create verbatim strings
+
+Verbatim strings treat most special characters (like newline characters) literally, making it better for multiline formatting without explicit escape sequences
+
+**String Interpolation**: Similar to previous examples, we use $ within the verbatim string to embed the values of name, age, and temperature
+
