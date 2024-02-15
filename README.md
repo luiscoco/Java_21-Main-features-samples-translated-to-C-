@@ -300,27 +300,13 @@ private IEnumerable<string> ExtractCities(Order order)
 
 **Key Considerations**:
 
-**Records**: C# records remain nearly identical to their Java counterparts.
+**Records**: C# records remain nearly identical to their Java counterparts
 
-**LINQ for Stream-like Operations**: C# uses LINQ methods (Where, SelectMany, ToHashSet) to replicate the Java stream() pipeline.
+**LINQ for Stream-like Operations**: C# uses LINQ methods (Where, SelectMany, ToHashSet) to replicate the Java stream() pipeline
 
-**Pattern Matching in Methods**: ExtractCities leverages pattern matching with records just like it would in a regular if condition.
+**Pattern Matching in Methods**: ExtractCities leverages pattern matching with records just like it would in a regular if condition
 
-**Enumerable.Empty**: Equivalent to Java's List.of() for an empty sequence.
-
-**Task Simulation**: While C# has true asynchronous support (async/await), this simplified version mimics the flow of your Task-based concept.
-
-Let's Break it Down
-
-ProcessOrders:
-
-Where acts as filter, keeping only large orders.
-
-SelectMany works like flatMap, allowing extraction of potentially multiple cities per order.
-
-ToHashSet is the C# equivalent of Collectors.toSet().
-
-string.Join(", ", citiesWithLargeOrders):  This neatly formats the output for printing.
+**Enumerable.Empty**: Equivalent to Java's List.of() for an empty sequence
 
 **Scenario 2: Polymorphism & Record Patterns**
 
