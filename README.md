@@ -182,3 +182,45 @@ The core function call is found within the recursive calculation for a **Complex
 subShapes.Select(ShapeUtils.CalculateTotalArea).Sum()
 ```
 
+## 2. Record Patterns
+
+Record patterns streamline working with record types, providing concise syntax for deconstructing them
+
+```csharp
+record Point(int X, int Y);
+
+void MovePoint(object obj)
+{
+    if (obj is Point(int x, int y)) // Pattern matching in the 'if' condition
+    {
+        // x and y are in scope here
+        Console.WriteLine($"Coordinates: ({x}, {y})");
+    }
+}
+```
+
+**Key Considerations**:
+
+**Records**: C# record syntax and behavior are very similar to Java's
+
+Pattern Matching in if Statements: C# allows pattern matching directly within if conditions
+
+If obj matches the Point record pattern, the properties x and y are automatically deconstructed and available within the if block
+
+String Interpolation: **C# uses $ for string interpolation**
+
+Important Note: **Object Equality**
+
+In Java, instanceof  checks for a type match and potential nullity
+
+For a closer translation of this behavior in  C#, you would slightly modify the condition:
+
+```csharp
+if (obj is Point { } point)  // Note the additional '{' and '}' 
+{
+    var (x, y) = point;  // Deconstruction into separate variables
+    Console.WriteLine($"Coordinates: ({x}, {y})");
+}
+```
+
+This modified if handles null cases and adds an extra layer of deconstruction into named variables (x and y).
