@@ -874,8 +874,56 @@ No Automatic 'Shutdown on Failure': C# doesn't have a built-in equivalent to imm
 
 **Virtual threads** introduce lightweight threading for massively scalable applications
 
-Handling Many Concurrent Clients:
+**Handling Many Concurrent Clients**:
 
 ```csharp
+using System.Net;
+using System.Net.Sockets;
+using System.Text; 
+using System.Threading.Tasks;
 
+try
+{
+    var serverSocket = new TcpListener(IPAddress.Any, 8080);
+    serverSocket.Start(); 
+
+    while (true)
+    {
+        var clientSocket = await serverSocket.AcceptTcpClientAsync();
+
+        // Start a task to handle the client request concurrently
+        _ = Task.Run(() => HandleClientRequest(clientSocket)); 
+    }
+}
+catch (SocketException ex)
+{
+    Console.WriteLine("Socket Error: " + ex.Message);
+}
+
+async void HandleClientRequest(TcpClient clientSocket) 
+{
+    try 
+    {
+        using (clientSocket)
+        using (var networkStream = clientSocket.GetStream())
+        {
+            // Read request (assuming a simple text-based protocol for this example)
+            byte[] buffer = new byte[1024];
+            int bytesRead = await networkStream.ReadAsync(buffer, 0, buffer.Length);
+            string request = Encoding.UTF8.GetString(buffer, 0, bytesRead); 
+
+            // Process request...
+            string response = "Here's a response from the server!"; 
+
+            // Send response...
+            byte[] responseBytes = Encoding.UTF8.GetBytes(response);
+            await networkStream.WriteAsync(responseBytes, 0, responseBytes.Length);
+        } // clientSocket and networkStream disposed automatically here
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Error handling client request: " + ex.Message);
+    }
+}
 ```
+
