@@ -798,3 +798,84 @@ string PossiblyFailingTask2() { /* ... */ return "Task 2 Success"; }
 
 **Synchronization**: Task.WaitAll blocks the thread until all tasks in the array have completed
 
+Structured concurrency radically simplifies working with multiple concurrent tasks within a single unit
+
+**Coordinating and Handling Errors Among Tasks**:
+
+C# doesn't have a built-in framework that precisely replicates Java's StructuredTaskScope
+
+However, we can combine C# concepts to achieve a similar structured execution pattern with controlled error propagation. Here's how you might approach this translation:
+
+```csharp
+using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+try
+{
+    List<Task> tasks = new List<Task>();
+
+    // Task 1: Network Operation
+    tasks.Add(Task.Run(() => PerformNetworkOperation()));
+
+    // Task 2: Expensive Computation
+    tasks.Add(Task.Run(() => ComputeExpensiveValue()));
+
+    // Wait for all tasks to complete
+    Task.WaitAll(tasks.ToArray());
+
+    // Check for Exceptions
+    List<Exception> exceptions = new List<Exception>();
+    foreach (var task in tasks)
+    {
+        if (task.IsFaulted) 
+        {
+            exceptions.AddRange(task.Exception.InnerExceptions);
+        }
+    }
+
+    if (exceptions.Count > 0)
+    {
+        throw new AggregateException(exceptions); // Propagate exceptions
+    }
+
+    // Retrieve Results 
+    Console.WriteLine("Network result: " + tasks[0].Result);
+    Console.WriteLine("Computed value: " + tasks[1].Result);
+}
+catch (AggregateException ex)
+{
+    foreach (var innerEx in ex.InnerExceptions)
+    {
+        Console.WriteLine("Task failed: " + innerEx.Message);
+    }
+}
+
+// Implement your methods (return types need to match Task results)
+string PerformNetworkOperation() { /* ... */ } 
+int ComputeExpensiveValue() { /* ... */ } 
+```
+
+**Explanation**:
+
+**Task Management**: Task.Run starts asynchronous tasks, and we store them in a list for tracking
+
+**Synchronization**: Task.WaitAll provides the equivalent of scope.join()
+
+**Error Handling**: The IsFaulted property on each Task indicates if an exception occurred 
+
+An AggregateException is used to bundle and propagate multiple exceptions, similar to Java's behavior 
+
+**resultNow Alternative**: Since we wait for tasks to complete, accessing the Result property directly is safe. This avoids potential blocking that resultNow could cause
+
+**Limitations**:
+
+No Automatic 'Shutdown on Failure': C# doesn't have a built-in equivalent to immediately fail sibling tasks if one fails. You would need to add manual cancellation logic if this is a strict requirement.
+
+**Virtual threads** introduce lightweight threading for massively scalable applications
+
+Handling Many Concurrent Clients:
+
+```csharp
+
+```
