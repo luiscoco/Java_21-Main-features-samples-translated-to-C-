@@ -67,6 +67,38 @@ public class ShapeDescriber
 
 **String Interpolation**: C# uses the $ prefix for string interpolation, a more readable way to combine variables and text within strings
 
+Pattern matching in switch can be combined with 'guards' (additional boolean conditions) to refine matching criteria
 
+```csharp
+enum TrafficLight { RED, YELLOW, GREEN }
 
+string HandleMessage(TrafficLight light)
+{
+    return light switch
+    {
+        TrafficLight.RED => "Stop!",
+        TrafficLight.YELLOW => "Prepare to stop",
+        TrafficLight.GREEN  => "Go!",
+        _ => "Unknown signal" // Default case
+    };
+}
+```
+
+**Key Considerations**:
+
+**Enums**: Enums in C# and Java are quite similar in their basic structure.
+
+**Switch Expression**: Like Java, C# also supports switch expressions for cleaner pattern matching. In C#, you directly reference the enum values (TrafficLight.RED) without the class prefix.
+
+**Default Case Importance**: Since enums have a well-defined set of values, a default case might seem unnecessary
+
+However, potential changes to the enum or unexpected input would make a default case valuable for error handling.
+
+How To Use It
+
+```csharp
+var currentLight = TrafficLight.YELLOW;
+var message = HandleMessage(currentLight); 
+Console.WriteLine(message); // Would print "Prepare to stop"
+```
 
