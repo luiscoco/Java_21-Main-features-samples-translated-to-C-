@@ -5,7 +5,6 @@
 
 
 ```csharp
-// Interfaces remain largely similar in C#
 interface Shape { }
 
 // Classes with property syntax for getters
