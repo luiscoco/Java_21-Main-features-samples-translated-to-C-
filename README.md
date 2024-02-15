@@ -1,4 +1,4 @@
-# Java_21 Main features translated to C#
+# Java 21 Main features translated to C#
 
 ## 1. Pattern Matching for switch
 
@@ -1019,9 +1019,61 @@ public class SequencedCollectionDemo
 
 **Pros**:
 
-Efficient AddFirst, AddLast, RemoveFirst, RemoveLast operations.
+Efficient AddFirst, AddLast, RemoveFirst, RemoveLast operations
 
 **Cons**:
 
-Slower random access (e.g., getting by index) compared to List<T>.
+Slower random access (e.g., getting by index) compared to List<T>
 
+While C# lacks **built-in** equivalents for **LinkedHashSet** and the reversed method from a  **SequencedCollection**, let's see how to accomplish similar behavior:
+
+Using **LinkedHashSet<T>** (Closest Equivalent)
+
+C# has **LinkedHashSet<T>** which preserves insertion order, just like Java's version:
+
+```csharp
+using System.Collections.Generic;
+
+public class SequencedSetDemo
+{
+    public static void Main(string[] args)
+    {
+        LinkedHashSet<int> mySet = new LinkedHashSet<int>();
+        mySet.Add(5);
+        mySet.Add(1);
+        mySet.Add(3);
+
+        // Getting the First Element (Iterator needed)
+        int firstElement = mySet.First(); 
+        Console.WriteLine("First element: " + firstElement);
+
+        // Reversing Order
+        List<int> reversedList = new List<int>(mySet);
+        reversedList.Reverse();
+
+        Console.WriteLine("Reversed set: " + string.Join(", ", reversedList));
+    }
+}
+```
+
+**Explanation**:
+
+**LinkedHashSet<T>** Maintains the order elements were added, giving you the 'sequenced' aspect
+
+**Getting the First Element**: .NET's **LinkedHashSet<T>** doesn't have getFirst
+
+The easiest way is to access it via the set's enumerator using First()
+
+Reversing: While there's no built-in reversed method, you can convert the set to a List<T>, reverse it, and display the reversed list
+
+**Important Notes**:
+
+**Iteration vs. Direct Access**: **LinkedHashSet<T>** is designed for maintaining order during iteration
+
+Getting the 'first' element directly requires using the enumerator
+
+No SequencedSet Functionality C# doesn't provide an interface akin to the Java 21 SequencedSet interface
+
+**Alternatives**
+
+If you frequently need direct 'first' access and set-like uniqueness, you might consider a custom data structure that combines aspects of a dictionary (for quick lookups) and a linked list (for ordering)
