@@ -135,3 +135,45 @@ You can deconstruct the records into their properties (w, h, r, etc.) directly w
 **_ as default case**: The underscore (_) represents the default case, making the intent explicit
 
 
+**Scenario: Parsing Geometric Shapes**
+
+Suppose we have geometric shapes represented with a hierarchy of sealed classes and records:
+
+```csharp
+// Sealed interface using records for types
+sealed interface Shape { } // No explicit 'permits' in C#
+record Circle(double Radius) : Shape;
+record Rectangle(double Width, double Height) : Shape;
+record Triangle(double Base, double Height) : Shape;
+record ComplexShape(List<Shape> SubShapes) : Shape;
+
+// Utility class for clarity 
+public static class ShapeUtils 
+{
+    public static double CalculateTotalArea(Shape shape)
+    {
+        return shape switch
+        {
+            Circle(double radius) => Math.PI * radius * radius,
+            Rectangle(double width, double height) => width * height,
+            Triangle(double base, double height) => 0.5 * base * height,
+            ComplexShape(List<Shape> subShapes) =>
+                subShapes.Select(ShapeUtils.CalculateTotalArea) // Recursive via Select
+                         .Sum(),
+            _ => throw new ArgumentException("Unknown shape type") // Updated exception type
+        };
+    }
+}
+```
+
+**Key Considerations**:
+
+Sealed Interfaces: C# lacks a direct permits keyword. A sealed interface implicitly controls allowed implementations. However, this doesn't enforce compile-time checking like permits
+
+Records: C# records work just like in previous examples
+
+Recursion with LINQ: Instead of Java's stream(), we use LINQ methods. Select maps elements to calculated areas, and Sum calculates the aggregate
+
+Exception Handling: C# uses ArgumentException where Java might use IllegalArgumentException
+
+
