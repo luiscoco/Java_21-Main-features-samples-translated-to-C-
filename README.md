@@ -2,7 +2,7 @@
 
 ## 1. Pattern Matching for switch
 
-
+This feature extends the capabilities of switch expressions and statements, allowing you to express more complex and sophisticated data pattern matching
 
 ```csharp
 interface Shape { }
