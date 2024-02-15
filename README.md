@@ -473,3 +473,46 @@ The code will produce the following output:
 ```
 [APPLE, BANANA, MANGO, ORANGE]
 ```
+
+**More complex string formatting**
+
+```csharp
+// Your Product class (you'll need to define this)
+class Product {
+    public string Name { get; set; } 
+    public double Price { get; set; }
+    public int Quantity { get; set; }
+
+    // ... (Constructor)
+}
+
+// ... 
+using System.Linq;
+using System.Collections.Generic;
+
+List<Product> order = new List<Product>();
+order.Add(new Product("Laptop", 999.99, 2));
+order.Add(new Product("Keyboard", 45.50, 1));
+
+string report = $@"--- Order Summary ---
+{string.Join("", order.Select(p => string.Format("{0,-20} ${1,8:F2} x{2}\n", p.Name, p.Price, p.Quantity)))}";
+
+Console.WriteLine(report);
+```
+
+**Explanation of Changes**:
+
+**C# Properties**: The name, price, and quantity fields are replaced by C# properties (Name, Price, Quantity)
+
+**LINQ Formatting**: The core formatting logic from the stream operation is preserved. C#'s string.Format is used similarly to Java's String.format, with minor syntax differences in the format specifiers
+
+**String Interpolation**: We use $ again for embedding the order summary inside the report string. string.Join concatenates the formatted order lines
+
+**Output**
+
+The code will produce an output similar to this:
+
+--- Order Summary ---
+Laptop               $ 999.99 x2
+Keyboard             $  45.50 x1
+
