@@ -168,12 +168,17 @@ public static class ShapeUtils
 
 **Key Considerations**:
 
-Sealed Interfaces: C# lacks a direct permits keyword. A sealed interface implicitly controls allowed implementations. However, this doesn't enforce compile-time checking like permits
+**Sealed Interfaces**: C# lacks a direct permits keyword. A sealed interface implicitly controls allowed implementations. However, this doesn't enforce compile-time checking like permits
 
-Records: C# records work just like in previous examples
+**Records**: C# records work just like in previous examples
 
-Recursion with LINQ: Instead of Java's stream(), we use LINQ methods. Select maps elements to calculated areas, and Sum calculates the aggregate
+**Recursion with LINQ**: Instead of Java's stream(), we use LINQ methods. Select maps elements to calculated areas, and Sum calculates the aggregate
 
-Exception Handling: C# uses ArgumentException where Java might use IllegalArgumentException
+**Exception Handling**: C# uses ArgumentException where Java might use IllegalArgumentException
 
+The core function call is found within the recursive calculation for a **ComplexShape**:
+
+```csharp
+subShapes.Select(ShapeUtils.CalculateTotalArea).Sum()
+```
 
