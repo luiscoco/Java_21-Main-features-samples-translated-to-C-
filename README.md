@@ -326,5 +326,56 @@ string.Join(", ", citiesWithLargeOrders):  This neatly formats the output for pr
 
 Consider a scenario where we have an abstract base class, with derived classes implemented as records:
 
+```csharp
+using System;
 
+// API Response definitions (from previous example)
+abstract class ApiResponse { }
+record SuccessResponse(string Message, object Data) : ApiResponse;
+record ErrorResponse(int Code, string Message) : ApiResponse;
+
+// Method for response handling
+async void HandleApiResponse(ApiResponse response) 
+{
+    if (response is SuccessResponse(string msg, object data))
+    {
+        Console.WriteLine($"Success: {msg}");
+
+        // Type checking and processing (several approaches possible)
+        switch (data) 
+        {
+            case string strData:
+                Console.WriteLine($"Data (string): {strData}");
+                break;
+            case int intData:
+                Console.WriteLine($"Data (int): {intData}");
+                break;
+            // Add more cases as needed...
+        }
+    }
+    else if (response is ErrorResponse(int code, string errMsg))
+    {
+        Console.WriteLine($"Error ({code}): {errMsg}");
+    }
+}
+
+// Main class for our console application
+class Program 
+{
+    static void Main(string[] args)
+    {
+        // Sample API responses
+        var successResponse = new SuccessResponse("Operation completed", 42);
+        var errorResponse = new ErrorResponse(500, "Internal server error");
+
+        // Handling responses
+        HandleApiResponse(successResponse);
+        HandleApiResponse(errorResponse);
+
+        // Keep the console open 
+        Console.WriteLine("Press any key to exit...");
+        Console.ReadKey();
+    }
+}
+```
 
