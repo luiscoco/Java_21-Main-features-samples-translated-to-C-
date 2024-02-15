@@ -102,3 +102,36 @@ var message = HandleMessage(currentLight);
 Console.WriteLine(message); // Would print "Prepare to stop"
 ```
 
+Pattern matching offers powerful data extraction mechanisms in switch expressions and statements
+
+```csharp
+// Record definitions for shapes
+record Rectangle(int Width, int Height); 
+record Circle(int Radius);
+record Triangle(int Base, int Height);
+
+string CalculateArea(Shape shape)
+{
+    return shape switch
+    {
+        Rectangle(int w, int h) => $"Rectangle area: {w * h}",
+        Circle(int r)           => $"Circle area: {Math.PI * r * r}",
+        Triangle(int b, int h)  => $"Triangle area: {0.5 * b * h}",
+        _                       => "Unsupported shape" // Underscore for the default case 
+    };
+}
+```
+
+**Key Features**
+
+**Records**: C# supports concise record types, which are perfect for representing data-centric structures like your shapes
+
+Pattern Matching with Records: C# records integrate seamlessly with pattern matching in switch expressions
+
+You can deconstruct the records into their properties (w, h, r, etc.) directly within the case patterns
+
+**String Interpolation**: $ is used for clean string interpolation, combining calculations and text
+
+**_ as default case**: The underscore (_) represents the default case, making the intent explicit
+
+
