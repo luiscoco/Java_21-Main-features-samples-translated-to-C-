@@ -680,5 +680,63 @@ When action() is executed, it accesses these captured values within HandleNested
 
 You need to call the action (**action()**) to simulate the **scoped execution**
 
+## 5. Structured Concurrency
 
+Structured concurrency simplifies the management of multiple threads
+
+Instead of dealing with threads directly, it treats multiple tasks as a single unit of work for improved reliability and error handling
+
+```csharp
+using System;
+using System.Threading.Tasks;
+
+try 
+{
+    Task<string> task1 = Task.Run(() => "Result of Task 1");
+    Task<int> task2 = Task.Run(() => 42);
+
+    // Wait for tasks to complete (if necessary)
+    Console.WriteLine(task1.Result); 
+    Console.WriteLine(task2.Result);
+} 
+catch (AggregateException ex)
+{
+    // Handle potential exceptions from tasks
+    foreach (var innerEx in ex.InnerExceptions)
+    {
+        Console.WriteLine(innerEx.Message);
+    }
+}
+```
+
+**Explanation of Changes**:
+
+**Task.Run**: Task.Run is used to start new tasks that run asynchronously. It automatically leverages the .NET thread pool to manage threads, similar to the concept of virtual threads in Java
+
+**Lambdas**: C# utilizes lambda expressions (() => ...) to define the work each task performs
+
+**try-catch**: A try-catch block is included to handle potential exceptions thrown by the tasks. If an exception occurs in one of the tasks, it will be wrapped in an AggregateException
+
+**Result Property**: Accessing the Result property of a Task will block the current thread until the task completes and returns the calculated result
+
+**Important Notes**:
+
+**Virtual Threads**: While .NET automatically manages the thread pool and may optimize thread usage, C# doesn't expose the explicit 'virtual threads' concept in the same way Java does
+
+**Exception Handling**: Task-based parallelism provides built-in mechanisms for handling exceptions that occur within asynchronous operations
+
+**Output**:
+
+The code will produce the following output:
+
+```
+Result of Task 1
+42
+```
+
+Structured concurrency offers elegant error handling for concurrent tasks
+
+```csharp
+
+```
 
