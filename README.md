@@ -298,43 +298,6 @@ private IEnumerable<string> ExtractCities(Order order)
 }
 ```
 
-
-Absolutely! Let's translate your Java code to use C# 12-style features. Here's the converted version along with explanations:
-
-```csharp
-record Address(string Street, string City, string ZipCode);
-record Customer(string Name, Address Address);
-record Order(int OrderId, Customer Customer, List<LineItem> Items);
-record LineItem(string Product, int Quantity);
-
-// Task-like behavior simulation 
-void ProcessOrders(List<Order> orders)
-{
-    var citiesWithLargeOrders = orders.Where(order => LargeOrder(order))
-                                      .SelectMany(order => ExtractCities(order))
-                                      .ToHashSet(); // Equivalent to Collectors.toSet()
-
-    Console.WriteLine(string.Join(", ", citiesWithLargeOrders)); 
-}
-
-private bool LargeOrder(Order order)
-{
-    return order.Items.Select(item => item.Quantity).Sum() > 100; 
-}
-
-private IEnumerable<string> ExtractCities(Order order)
-{
-    if (order is Order(_, Customer(_, Address(_, string city, _)), _))
-    {
-        return new List<string> { city };
-    }
-    else
-    {
-        return Enumerable.Empty<string>(); // Like List.of() for an empty list
-    }
-}
-```
-
 **Key Considerations**:
 
 **Records**: C# records remain nearly identical to their Java counterparts.
@@ -359,6 +322,9 @@ ToHashSet is the C# equivalent of Collectors.toSet().
 
 string.Join(", ", citiesWithLargeOrders):  This neatly formats the output for printing.
 
+**Scenario 2: Polymorphism & Record Patterns**
+
+Consider a scenario where we have an abstract base class, with derived classes implemented as records:
 
 
 
