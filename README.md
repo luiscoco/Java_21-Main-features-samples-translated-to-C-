@@ -1325,6 +1325,50 @@ Task.Run(() => {
 
 **Blocking I/O sample:**
 
+```csharp
+using System.Net;
+using System.Net.Sockets;
+using System.Threading.Tasks;
+
+public class SimpleServer 
+{
+    public static async Task Main(string[] args)
+    {
+        const int port = 8080;
+
+        try 
+        {
+            using var serverSocket = new TcpListener(IPAddress.Any, port);
+            serverSocket.Start();
+
+            while (true)
+            {
+                try
+                {
+                    var clientSocket = await serverSocket.AcceptTcpClientAsync();
+
+                    // Start a task to handle client request
+                    _ = Task.Run(async () => 
+                    {
+                        Console.WriteLine("New client connected!");
+
+                        // ... (code to process the client's request using clientSocket)
+                    }); 
+                } 
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error handling client: " + e.Message);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Server error: " + e.Message);
+        }
+    }
+}
+```
+
 
 
 
