@@ -1244,19 +1244,17 @@ Console.WriteLine($"x: {x}, z: {z}");
 
 ## 9. Virtual Threads
 
-Let's get into how you'd approach "virtual threads" concepts in C# 12.  There's an important distinction to make before providing relevant examples:
+Let's get into how you'd approach "**virtual threads**" concepts in **C# 12**
 
-C# and Java: Different Approaches to Lightweight Concurrency
+**C# and Java: Different Approaches to Lightweight Concurrency**
 
-Java Virtual Threads (Project Loom): Java's virtual threads are specifically designed as ultra-lightweight threads managed by the runtime. The goal is to support millions of concurrent virtual threads. This is a fundamental change to Java's concurrency model.
-C#: Tasks and Async/Await: C# focuses on task-based asynchronous programming (TAP) utilizing the Task and Task<T> types along with the async and await keywords. Tasks do not necessarily correspond to OS threads; they may be scheduled in various ways (including across thread-pool threads).
-C# Code Demonstrating Similar Principles
+**Java Virtual Threads (Project Loom)**: Java's virtual threads are specifically designed as ultra-lightweight threads managed by the runtime. The goal is to support millions of concurrent virtual threads. This is a fundamental change to Java's concurrency model
 
-Given this difference, here's how we achieve analogous results to Java's Virtual Threads in C#,  emphasizing massively scalable asynchronous operations:
+**C#**: Tasks and Async/Await: C# focuses on task-based asynchronous programming (TAP) utilizing the Task and Task<T> types along with the async and await keywords. Tasks do not necessarily correspond to OS threads; they may be scheduled in various ways (including across thread-pool threads). C# Code Demonstrating Similar Principles. Given this difference, here's how we achieve analogous results to Java's Virtual Threads in C#, emphasizing massively scalable asynchronous operations:
 
-Example 1: I/O-Bound Concurrency
+**Example 1: I/O-Bound Concurrency**
 
-C#
+```csharp
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -1272,12 +1270,15 @@ async Task DownloadWebsitesAsync()
 
     await Task.WhenAll(tasks); 
 }
-Usa el código con precaución.
-In this example, network downloads (inherently I/O-bound) happen without blocking OS threads due to the asynchronous nature of GetStringAsync.
-C#'s runtime efficiently schedules these tasks, potentially resulting in hundreds or thousands running concurrently.
-Example 2: Mixing I/O and Computation
+```
 
-C#
+In this example, network downloads (inherently I/O-bound) happen without blocking OS threads due to the asynchronous nature of GetStringAsync
+
+C#'s runtime efficiently schedules these tasks, potentially resulting in hundreds or thousands running concurrently
+
+**Example 2: Mixing I/O and Computation**
+
+```csharp
 using System.Threading.Tasks;
 
 async Task ProcessDataAsync()
@@ -1290,13 +1291,18 @@ async Task ProcessDataAsync()
 
     Console.WriteLine(result);
 }
-Usa el código con precaución.
-Task.Run is often used to offload CPU-heavy work to thread pool threads, preventing UI blockage or long-running computations from stalling requests.
-Key Concepts
+```
 
-Non-Blocking: Asynchronous code with async/await frees up threads while waiting for responses (network, file system, etc.), just like virtual threads.
-Scalability: TAP-based C# code scales remarkably well, accommodating a high volume of concurrent operations without incurring a massive thread overhead.
-Limitations
+**Task.Run** is often used to offload CPU-heavy work to thread pool threads, preventing UI blockage or long-running computations from stalling requests
 
-No JVM Integration: The C# and Java runtimes don't cross-talk, so you can't directly employ Java virtual threads from C#. Interop would require external communication mechanisms.
-Not the Same Abstraction: Although both aim for scalability, "virtual threads" and C#'s Task system differ in implementation and some guarantees.
+**Key Concepts**
+
+**Non-Blocking**: Asynchronous code with async/await frees up threads while waiting for responses (network, file system, etc.), just like virtual threads
+
+**Scalability**: TAP-based C# code scales remarkably well, accommodating a high volume of concurrent operations without incurring a massive thread overhead
+
+**Limitations**
+
+**No JVM Integration**: The C# and Java runtimes don't cross-talk, so you can't directly employ Java virtual threads from C#. Interop would require external communication mechanisms
+
+**Not the Same Abstraction**: Although both aim for scalability, "virtual threads" and C#'s Task system differ in implementation and some guarantees
