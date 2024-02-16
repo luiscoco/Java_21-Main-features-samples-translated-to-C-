@@ -1077,3 +1077,96 @@ No SequencedSet Functionality C# doesn't provide an interface akin to the Java 2
 **Alternatives**
 
 If you frequently need direct 'first' access and set-like uniqueness, you might consider a custom data structure that combines aspects of a dictionary (for quick lookups) and a linked list (for ordering)
+
+## 7. Unnamed Classes and Instance Main Methods (in C# Top-level Statements)
+
+**Top-level statements** are a revolutionary feature introduced in C# 9 and further expanded upon in C# 12
+
+They provide a streamlined way to write C# programs without the traditional boilerplate of a Program class and a Main method. Your core program logic exists directly within a single file
+
+**Key Benefits**
+
+**Reduced Ceremony**: Goodbye to unnecessary class and method declarations, especially for small programs, scripts, or learning scenarios
+
+**Faster Prototyping**: Experiment with ideas quickly without extensive setup
+
+**Improved Readab**ility: The focus is on your core code, making simple programs easier to grasp
+
+**Basic Sample**
+
+```csharp
+// Simple top-level statements program
+Console.WriteLine("Hello, from top-level statements!");
+```
+
+**Slightly More Complex**
+
+```csharp
+using System;
+
+int number = 10;
+Console.WriteLine($"The number is {number}");
+
+// Simple calculation
+number *= 2;
+Console.WriteLine($"After calculation, the number is now {number}");
+```
+
+**Advanced Possibilities**
+
+While top-level statements shine in simplicity, they can handle more complex scenarios:
+
+**1. Arguments**
+
+```csharp
+using System;
+
+args[0] = args[0].ToUpper(); // Modify the first argument
+Console.WriteLine($"First argument: {args[0]}");
+```
+
+**2. Asynchronous Operations**
+
+```csharp
+using System;
+using System.Threading.Tasks;
+
+Console.WriteLine("Starting an async operation...");
+await Task.Delay(1000);
+Console.WriteLine("Async operation completed!");
+```
+
+**3. File I/O, Working with Classes, Etc**
+
+You can use most of the standard C# language features within top-level statements:
+
+```csharp
+using System;
+using System.IO;
+
+// Save some data
+File.WriteAllText("data.txt", "Some sample content");
+
+// Read it back
+Console.WriteLine(File.ReadAllText("data.txt"));
+```
+
+**Rules and Considerations**
+
+**Single File**: Only one file in your project can utilize top-level statements. It serves as your program's entry point
+
+**Statement Order**: Statements execute in the order they appear in the file
+
+**Namespaces and Classes**: You can still define namespaces and classes after top-level statements, but they must be explicitly declared
+
+**Main Method Coexistence**: You can have a traditional Main method in another file within the same project
+
+**Top-level statements** in C# 12 aren't meant to replace all traditional program structures. They are excellent for:
+
+Small programs and utilities
+
+Scripting-like scenarios
+
+Prototyping and experimentation
+
+Teaching C# basics
