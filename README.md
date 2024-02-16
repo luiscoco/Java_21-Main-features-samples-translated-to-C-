@@ -1194,46 +1194,52 @@ if (person is Person(_, _, 25)) // Only interested in the age
 
 **Advantages of Unnamed Patterns**
 
-Reduced Verbosity: Eliminates unnecessary naming, especially in nested patterns
+**Reduced Verbosity**: Eliminates unnecessary naming, especially in nested patterns
 
-Focus on Structure: Emphasizes the shape of the data you're checking rather than specific variable names
+**Focus on Structure**: Emphasizes the shape of the data you're checking rather than specific variable names
 
 **Unnamed Variables**
 
-The underscore, when used as a variable name, signifies that you  intend to discard the value.   This is most often used in scenarios like out parameters and deconstruction.
+The underscore, when used as a variable name, signifies that you  intend to discard the value.   This is most often used in scenarios like out parameters and deconstruction
 
-Examples
+**Examples**
 
-out Parameters:
+**out Parameters**:
 
-C#
+```csharp
 if (int.TryParse("123", out _)) 
 {
     Console.WriteLine("Parsing successful!");
 }
-Usa el código con precaución.
-Deconstruction:
+```
 
-C#
+**Deconstruction**:
+
+```csharp
 (int x, _, string z) = GetSomeData(); 
 Console.WriteLine($"x: {x}, z: {z}");
-Usa el código con precaución.
-Benefits of Unnamed Variables
+```
 
-Clear intent: Indicates that a value is unimportant.
-Cleaner Code: Especially when side effects are the primary concern (like with TryParse).
-Where to Effectively Use These Features
+**Benefits of Unnamed Variables**
 
-Deeply nested pattern matching: When focusing on the overall structure, not individual names deep within the data.
-Handling cases where some values are irrelevant: out variables are the classic example.
-Lambda expressions or foreach loops: Where temporary variable names don't add much value.
+Clear intent: Indicates that a value is unimportant
+
+Cleaner Code: Especially when side effects are the primary concern (like with TryParse)
+
+**Where to Effectively Use These Features**
+
+**Deeply nested pattern matching**: When focusing on the overall structure, not individual names deep within the data
+
+**Handling cases where some values are irrelevant**: out variables are the classic example
+
+**Lambda expressions or foreach loops**: Where temporary variable names don't add much value
 
 **Key Points**
 
-Preview Feature: This means the syntax or specific behaviors could still change in future C# versions
+**Preview Feature**: This means the syntax or specific behaviors could still change in future C# versions
 
-Context is Key: Unnamed patterns and variables might not always be the most readable approach. Use them thoughtfully
+**Context is Key**: Unnamed patterns and variables might not always be the most readable approach. Use them thoughtfully
 
-Note: Traditionally, the underscore could already be used as a "discard" in some scenarios, but C# 12 formalizes this usage and expands its use in patterns
+**Note**: Traditionally, the underscore could already be used as a "discard" in some scenarios, but C# 12 formalizes this usage and expands its use in patterns
 
 ## 9. 
