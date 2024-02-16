@@ -1222,9 +1222,9 @@ Console.WriteLine($"x: {x}, z: {z}");
 
 **Benefits of Unnamed Variables**
 
-Clear intent: Indicates that a value is unimportant
+**Clear intent**: Indicates that a value is unimportant
 
-Cleaner Code: Especially when side effects are the primary concern (like with TryParse)
+**Cleaner Code**: Especially when side effects are the primary concern (like with TryParse)
 
 **Where to Effectively Use These Features**
 
