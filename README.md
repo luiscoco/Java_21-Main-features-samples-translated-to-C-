@@ -953,7 +953,7 @@ Getting the first or last element can be done with indexing (list[0] or list[lis
 
 **Example Scenarios**
 
-### 1. Queue-like Behavior
+### Queue-like Behavior
 
 ```csharp
 LinkedList<string> taskQueue = new LinkedList<string>();
@@ -964,14 +964,14 @@ string nextTask = taskQueue.First.Value;
 taskQueue.RemoveFirst(); 
 ```
 
-### 2.  Getting Latest Items
+### Getting Latest Items
 
 ```csharp
 List<int> sensorReadings = new List<int> { 15, 22, 18, 25 };
 int latestReading = sensorReadings.Last();
 ```
 
-### 3.  Processing in Reverse
+### Processing in Reverse
 
 ```csharp
 string[] names = { "Alice", "Bob", "Charlie" };
@@ -1116,7 +1116,7 @@ Console.WriteLine($"After calculation, the number is now {number}");
 
 While top-level statements shine in simplicity, they can handle more complex scenarios:
 
-**1. Arguments**
+**Arguments**
 
 ```csharp
 using System;
@@ -1125,7 +1125,7 @@ args[0] = args[0].ToUpper(); // Modify the first argument
 Console.WriteLine($"First argument: {args[0]}");
 ```
 
-**2. Asynchronous Operations**
+**Asynchronous Operations**
 
 ```csharp
 using System;
@@ -1136,7 +1136,7 @@ await Task.Delay(1000);
 Console.WriteLine("Async operation completed!");
 ```
 
-**3. File I/O, Working with Classes, Etc**
+**File I/O, Working with Classes, Etc**
 
 You can use most of the standard C# language features within top-level statements:
 
