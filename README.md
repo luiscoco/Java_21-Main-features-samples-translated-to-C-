@@ -1306,3 +1306,25 @@ async Task ProcessDataAsync()
 **No JVM Integration**: The C# and Java runtimes don't cross-talk, so you can't directly employ Java virtual threads from C#. Interop would require external communication mechanisms
 
 **Not the Same Abstraction**: Although both aim for scalability, "virtual threads" and C#'s Task system differ in implementation and some guarantees
+
+Let's see more simple samples about virtual threads
+
+**Basic Execution sample:**
+
+```csharp
+Task.Run(() => {
+    Console.WriteLine("Hello from a Task!");
+}).Wait();
+```
+
+**Explanation**
+
+**Task.Run(() => { ... })**: Creates a Task and queues the lambda expression onto the thread pool. This executes asynchronously
+
+**.Wait()**: Blocks the current thread until the Task has completed running its action
+
+**Blocking I/O sample:**
+
+
+
+
